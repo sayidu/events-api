@@ -11,5 +11,9 @@ module Api
       token = ::Auth::Jwt.encode_token({ email: @user.email })
       render json: { token: token }, status: :ok
     end
+
+    def destroy
+      ::Auth::Jwt.encode_token({ email: @user.email, exp: Time.now })
+    end
   end
 end

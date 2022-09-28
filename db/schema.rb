@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_28_015354) do
+ActiveRecord::Schema.define(version: 2022_09_28_020704) do
 
   create_table "attendees", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id"
@@ -30,6 +30,8 @@ ActiveRecord::Schema.define(version: 2022_09_28_015354) do
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_events_on_name"
+    t.index ["start_date"], name: "index_events_on_start_date"
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
