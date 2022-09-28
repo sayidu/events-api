@@ -2,12 +2,12 @@
 
 module Api
   class EventsController < BaseController
-    before_action :set_event, only: %i[show edit update]
+    before_action :set_event, only: %i[show edit]
 
+    # to do: index should support filtering for my events
     def index
       search_term = params[:search]&.strip&.downcase
-      @events = @user.events
-      @events = search_term.present? ? @events.get_by_search_term(search_term) : @events
+      @events = search_term.present? ? Event.get_by_search_term(search_term) : Event.all
       @events = @events.page(page_no(params[:page]))
       render json: @events, status: :ok
     end
@@ -31,7 +31,8 @@ module Api
     end
 
     def update
-      if @event.update(events_params)
+      @event = @user.events.find(params[:id])
+      if @event.present? && @event.update(events_params)
         render json: @event, status: :ok
       else
         render json: { errors: @event.errors.full_messages.join(',') },
@@ -46,7 +47,7 @@ module Api
     end
 
     def set_event
-      @event = @user.events.find(params[:id])
+      @event = Event.find(params[:id])
     end
   end
 end
