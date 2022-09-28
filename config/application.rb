@@ -10,5 +10,6 @@ module EventsApi
   class Application < Rails::Application
     config.load_defaults 6.1
     config.time_zone = "Central Time (US & Canada)"
+    config.api_only = true
   end
 end
