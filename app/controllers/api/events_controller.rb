@@ -12,12 +12,8 @@ module Api
       render json: @events, status: :ok
     end
 
-    def new
-      @event = Event.new
-    end
-
     def create
-      @event = Event.new(events_params)
+      @event = @user.events.new(events_params)
       if @event.save
         render json: @event, status: :created
       else

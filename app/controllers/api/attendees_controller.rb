@@ -2,7 +2,7 @@
 
 module Api
   class AttendeesController < BaseController
-    before_action :set_attendee, only: %i[show edit update]
+    before_action :set_attendee, only: %i[show edit update destroy]
 
     # To do: search should support event and user id
     def index
@@ -27,13 +27,9 @@ module Api
       render json: @attendee, status: :ok
     end
 
-    def update
-      if @attendee.update(attendees_params)
-        render json: @attendee, status: :ok
-      else
-        render json: { errors: @attendee.errors.full_messages.join(',') },
-               status: :unprocessable_entity
-      end
+
+    def destroy
+      @attendee.destroy
     end
 
     private
@@ -43,7 +39,7 @@ module Api
     end
 
     def set_attendee
-      @attendee = Attendee.find(params[:id])
+      @attendee = @user.attendees.find(params[:id])
     end
   end
 end
